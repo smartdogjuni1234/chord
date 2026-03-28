@@ -194,13 +194,13 @@ function findChord() {
     // Major
     if (match(intervals, [0,4,7])) {
       const inversion = getInversion(root, selectedNotes, noteIndex);
-      return show(cleanNote(root) + "Major" + inversion);
+      return show(cleanNote(root) + "M" + inversion);
     }
 
     // Minor
     if (match(intervals, [0,3,7])) {
       const inversion = getInversion(root, selectedNotes, noteIndex);
-return show(cleanNote(root) + "minor" + inversion);
+return show(cleanNote(root) + "m" + inversion);
     }
 
     // Diminished
