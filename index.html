@@ -8,8 +8,7 @@
 body {
   font-family: sans-serif;
   text-align: center;
-  background: #111;
-  color: white;
+  background: #ffe4ec;
 }
 
 h1 {
@@ -18,36 +17,35 @@ h1 {
 
 .keyboard {
   position: relative;
-  width: 700px;
+  width: 1120px; /* 2옥타브 */
   margin: 40px auto;
 }
 
 /* 흰 건반 */
 .white {
   width: 80px;
-  height: 250px;
+  height: 260px;
   background: white;
-  border: 1px solid black;
+  border: 1px solid #333;
   display: inline-block;
   position: relative;
   z-index: 1;
   cursor: pointer;
-  transition: 0.1s;
 }
 
 .white.active {
-  background: #4fc3f7;
+  background: #ffd1dc;
 }
 
 /* 검은 건반 */
 .black {
   width: 50px;
-  height: 150px;
+  height: 160px;
   background: black;
   position: absolute;
   z-index: 2;
+  top: 0;
   cursor: pointer;
-  transition: 0.1s;
 }
 
 .black.active {
@@ -55,11 +53,18 @@ h1 {
 }
 
 /* 검은 건반 위치 */
-.black[data-note="C#"] { left: 55px; }
-.black[data-note="D#"] { left: 135px; }
-.black[data-note="F#"] { left: 295px; }
-.black[data-note="G#"] { left: 375px; }
-.black[data-note="A#"] { left: 455px; }
+.black.n1 { left: 60px; }   /* C# */
+.black.n2 { left: 140px; }  /* D# */
+.black.n3 { left: 300px; }  /* F# */
+.black.n4 { left: 380px; }  /* G# */
+.black.n5 { left: 460px; }  /* A# */
+
+.black.n6 { left: 620px; }
+.black.n7 { left: 700px; }
+.black.n8 { left: 860px; }
+.black.n9 { left: 940px; }
+.black.n10 { left: 1020px; }
+}
 
 button {
   margin: 10px;
@@ -85,7 +90,7 @@ button {
 
 <div class="keyboard">
 
-  <!-- 흰 건반 -->
+ <!-- 🔥 흰 건반 (2옥타브) -->
   <div class="white" data-note="C">도</div>
   <div class="white" data-note="D">레</div>
   <div class="white" data-note="E">미</div>
@@ -94,12 +99,26 @@ button {
   <div class="white" data-note="A">라</div>
   <div class="white" data-note="B">시</div>
 
-  <!-- 검은 건반 -->
-  <div class="black" data-note="C#"></div>
-  <div class="black" data-note="D#"></div>
-  <div class="black" data-note="F#"></div>
-  <div class="black" data-note="G#"></div>
-  <div class="black" data-note="A#"></div>
+  <div class="white" data-note="C">도</div>
+  <div class="white" data-note="D">레</div>
+  <div class="white" data-note="E">미</div>
+  <div class="white" data-note="F">파</div>
+  <div class="white" data-note="G">솔</div>
+  <div class="white" data-note="A">라</div>
+  <div class="white" data-note="B">시</div>
+
+  <!-- 🔥 검은 건반 -->
+  <div class="black n1" data-note="C#"></div>
+  <div class="black n2" data-note="D#"></div>
+  <div class="black n3" data-note="F#"></div>
+  <div class="black n4" data-note="G#"></div>
+  <div class="black n5" data-note="A#"></div>
+
+  <div class="black n6" data-note="C#"></div>
+  <div class="black n7" data-note="D#"></div>
+  <div class="black n8" data-note="F#"></div>
+  <div class="black n9" data-note="G#"></div>
+  <div class="black n10" data-note="A#"></div>
 
 </div>
 
@@ -165,6 +184,7 @@ function findChord() {
     const rootIdx = noteIndex[root];
 
     const intervals = sorted.map(n => (n - rootIdx + 12) % 12);
+    let type = null;
 
     // Major
     if (match(intervals, [0,4,7])) {
