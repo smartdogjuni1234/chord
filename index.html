@@ -16,20 +16,24 @@ h1 {
 }
 
 .keyboard {
-  position: relative;
-  width: 1120px; /* 2옥타브 */
+  display: flex;
+  justify-content: center;
   margin: 40px auto;
+}
+
+/* 각 건반 묶음 */
+.key {
+  position: relative;
 }
 
 /* 흰 건반 */
 .white {
-  width: 80px;
+  width: 70px;
   height: 260px;
   background: white;
   border: 1px solid #333;
-  display: inline-block;
-  position: relative;
-  z-index: 1;
+  text-align: center;
+  line-height: 240px;
   cursor: pointer;
 }
 
@@ -39,31 +43,19 @@ h1 {
 
 /* 검은 건반 */
 .black {
-  width: 50px;
+  position: absolute;
+  width: 40px;
   height: 160px;
   background: black;
-  position: absolute;
-  z-index: 2;
   top: 0;
+  right: -20px; /* 🔥 핵심 위치 */
+  z-index: 2;
   cursor: pointer;
 }
 
 .black.active {
   background: #ff4081;
 }
-
-/* 검은 건반 위치 */
-.black.n1 { left: 60px; }   /* C# */
-.black.n2 { left: 140px; }  /* D# */
-.black.n3 { left: 300px; }  /* F# */
-.black.n4 { left: 380px; }  /* G# */
-.black.n5 { left: 460px; }  /* A# */
-
-.black.n6 { left: 620px; }
-.black.n7 { left: 700px; }
-.black.n8 { left: 860px; }
-.black.n9 { left: 940px; }
-.black.n10 { left: 1020px; }
 
 
 button {
@@ -90,37 +82,79 @@ button {
 
 <div class="keyboard">
 
- <!-- 🔥 흰 건반 (2옥타브) -->
-<!-- 1옥타브 (4번 옥타브) -->
-<div class="white" data-note="C4">도</div>
-<div class="white" data-note="D4">레</div>
-<div class="white" data-note="E4">미</div>
-<div class="white" data-note="F4">파</div>
-<div class="white" data-note="G4">솔</div>
-<div class="white" data-note="A4">라</div>
-<div class="white" data-note="B4">시</div>
+  <!-- C -->
+  <div class="key">
+    <div class="white" data-note="C4">도</div>
+    <div class="black" data-note="C#4"></div>
+  </div>
 
-<!-- 2옥타브 (5번 옥타브) -->
-<div class="white" data-note="C5">도</div>
-<div class="white" data-note="D5">레</div>
-<div class="white" data-note="E5">미</div>
-<div class="white" data-note="F5">파</div>
-<div class="white" data-note="G5">솔</div>
-<div class="white" data-note="A5">라</div>
-<div class="white" data-note="B5">시</div>
+  <!-- D -->
+  <div class="key">
+    <div class="white" data-note="D4">레</div>
+    <div class="black" data-note="D#4"></div>
+  </div>
 
-  <!-- 🔥 검은 건반 -->
-<div class="black n1" data-note="C#4"></div>
-<div class="black n2" data-note="D#4"></div>
-<div class="black n3" data-note="F#4"></div>
-<div class="black n4" data-note="G#4"></div>
-<div class="black n5" data-note="A#4"></div>
+  <!-- E -->
+  <div class="key">
+    <div class="white" data-note="E4">미</div>
+  </div>
 
-<div class="black n6" data-note="C#5"></div>
-<div class="black n7" data-note="D#5"></div>
-<div class="black n8" data-note="F#5"></div>
-<div class="black n9" data-note="G#5"></div>
-<div class="black n10" data-note="A#5"></div>
+  <!-- F -->
+  <div class="key">
+    <div class="white" data-note="F4">파</div>
+    <div class="black" data-note="F#4"></div>
+  </div>
+
+  <!-- G -->
+  <div class="key">
+    <div class="white" data-note="G4">솔</div>
+    <div class="black" data-note="G#4"></div>
+  </div>
+
+  <!-- A -->
+  <div class="key">
+    <div class="white" data-note="A4">라</div>
+    <div class="black" data-note="A#4"></div>
+  </div>
+
+  <!-- B -->
+  <div class="key">
+    <div class="white" data-note="B4">시</div>
+  </div>
+
+  <!-- 2옥타브 -->
+  <div class="key">
+    <div class="white" data-note="C5">도</div>
+    <div class="black" data-note="C#5"></div>
+  </div>
+
+  <div class="key">
+    <div class="white" data-note="D5">레</div>
+    <div class="black" data-note="D#5"></div>
+  </div>
+
+  <div class="key">
+    <div class="white" data-note="E5">미</div>
+  </div>
+
+  <div class="key">
+    <div class="white" data-note="F5">파</div>
+    <div class="black" data-note="F#5"></div>
+  </div>
+
+  <div class="key">
+    <div class="white" data-note="G5">솔</div>
+    <div class="black" data-note="G#5"></div>
+  </div>
+
+  <div class="key">
+    <div class="white" data-note="A5">라</div>
+    <div class="black" data-note="A#5"></div>
+  </div>
+
+  <div class="key">
+    <div class="white" data-note="B5">시</div>
+  </div>
 
 </div>
 
