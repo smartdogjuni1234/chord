@@ -211,55 +211,90 @@ function getInversion(root, selectedNotes, noteIndex) {
   return "";
 }
   
-// 코드 찾기
+// 코드 찾기 (재즈 확장)
 function findChord() {
   if (selectedNotes.length < 3) {
-    document.getElementById("result").innerText = "3개 이상 선택해줘!";
-    return;
+    return show("3개 이상 선택!");
   }
 
-  const sorted = selectedNotes.map(n => noteIndex[n]).sort((a,b)=>a-b);
+  const nums = selectedNotes.map(n => noteIndex[n] % 12);
 
   for (let root of selectedNotes) {
-    const rootIdx = noteIndex[root];
+    const rootIdx = noteIndex[root] % 12;
 
-    const intervals = sorted.map(n => (n - rootIdx + 12) % 12);
-    let type = null;
+    const intervals = nums.map(n => (n - rootIdx + 12) % 12);
 
-    // Major
+    const inversion = getInversion(root, selectedNotes, noteIndex);
+    const rootName = cleanNote(root);
+
+    // 🔥 Major
     if (match(intervals, [0,4,7])) {
-      const inversion = getInversion(root, selectedNotes, noteIndex);
-      return show(cleanNote(root) + "M" + inversion);
+      return show(rootName + inversion);
     }
 
-    // Minor
+    // 🔥 minor
     if (match(intervals, [0,3,7])) {
-      const inversion = getInversion(root, selectedNotes, noteIndex);
-return show(cleanNote(root) + "m" + inversion);
+      return show(rootName + "m" + inversion);
     }
 
-    // Diminished
+    // 🔥 diminished
     if (match(intervals, [0,3,6])) {
-      const inversion = getInversion(root, selectedNotes, noteIndex);
-return show(cleanNote(root) + "dim" + inversion);
+      return show(rootName + "dim" + inversion);
     }
 
-    // 7
+    // 🔥 augmented
+    if (match(intervals, [0,4,8])) {
+      return show(rootName + "aug" + inversion);
+    }
+
+    // 🔥 7
     if (match(intervals, [0,4,7,10])) {
-  const inversion = getInversion(root, selectedNotes, noteIndex);
-  return show(cleanNote(root) + "7" + inversion);
-}
-
-    // minor7
-    if (match(intervals, [0,3,7,10])) {
-      const inversion = getInversion(root, selectedNotes, noteIndex);
-return show(cleanNote(root) + "m7" + inversion);
+      return show(rootName + "7" + inversion);
     }
 
-    // sus4
+    // 🔥 maj7 (핵심 재즈 코드)
+    if (match(intervals, [0,4,7,11])) {
+      return show(rootName + "maj7" + inversion);
+    }
+
+    // 🔥 m7
+    if (match(intervals, [0,3,7,10])) {
+      return show(rootName + "m7" + inversion);
+    }
+
+    // 🔥 m7b5 (half diminished)
+    if (match(intervals, [0,3,6,10])) {
+      return show(rootName + "m7b5" + inversion);
+    }
+
+    // 🔥 dim7
+    if (match(intervals, [0,3,6,9])) {
+      return show(rootName + "dim7" + inversion);
+    }
+
+    // 🔥 sus4
     if (match(intervals, [0,5,7])) {
-      const inversion = getInversion(root, selectedNotes, noteIndex);
-return show(cleanNote(root) + "sus4" + inversion);
+      return show(rootName + "sus4" + inversion);
+    }
+
+    // 🔥 add9
+    if (match(intervals, [0,4,7,2])) {
+      return show(rootName + "add9" + inversion);
+    }
+
+    // 🔥 9 (dominant 9)
+    if (match(intervals, [0,4,7,10,2])) {
+      return show(rootName + "9" + inversion);
+    }
+
+    // 🔥 m9
+    if (match(intervals, [0,3,7,10,2])) {
+      return show(rootName + "m9" + inversion);
+    }
+
+    // 🔥 maj9
+    if (match(intervals, [0,4,7,11,2])) {
+      return show(rootName + "maj9" + inversion);
     }
   }
 
