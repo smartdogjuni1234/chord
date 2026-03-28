@@ -168,17 +168,20 @@ function findChord() {
 
     // Major
     if (match(intervals, [0,4,7])) {
-      return show(root + " Major");
+      const inversion = getInversion(root, selectedNotes, noteIndex);
+      return show(root + " Major" + inversion);
     }
 
     // Minor
     if (match(intervals, [0,3,7])) {
-      return show(root + " minor");
+      const inversion = getInversion(root, selectedNotes, noteIndex);
+return show(root + " minor" + inversion);
     }
 
     // Diminished
     if (match(intervals, [0,3,6])) {
-      return show(root + " dim");
+      const inversion = getInversion(root, selectedNotes, noteIndex);
+return show(root + " dim" + inversion);
     }
 
     // 7
@@ -188,12 +191,14 @@ function findChord() {
 
     // minor7
     if (match(intervals, [0,3,7,10])) {
-      return show(root + "m7");
+      const inversion = getInversion(root, selectedNotes, noteIndex);
+return show(root + " m7" + inversion);
     }
 
     // sus4
     if (match(intervals, [0,5,7])) {
-      return show(root + "sus4");
+      const inversion = getInversion(root, selectedNotes, noteIndex);
+return show(root + " sus4" + inversion);
     }
   }
 
