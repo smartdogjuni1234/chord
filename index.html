@@ -24,6 +24,7 @@ h1 {
 /* 각 건반 묶음 */
 .key {
   position: relative;
+  margin-right: 2px; /* 살짝 띄우기 */
 }
 
 /* 흰 건반 */
@@ -48,7 +49,7 @@ h1 {
   height: 160px;
   background: black;
   top: 0;
-  right: -20px; /* 🔥 핵심 위치 */
+  left: 50px; /* 🔥 핵심 수정 */
   z-index: 2;
   cursor: pointer;
 }
@@ -181,7 +182,7 @@ document.querySelectorAll('.white, .black').forEach(key => {
     }
 
     document.getElementById("notes").innerText =
-      "선택된 음: " + selectedNotes.join(", ");
+  "선택된 음: " + selectedNotes.map(cleanNote).join(", ");
   });
 });
 
