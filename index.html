@@ -135,7 +135,23 @@ const noteIndex = {
   "C":0,"C#":1,"D":2,"D#":3,"E":4,"F":5,
   "F#":6,"G":7,"G#":8,"A":9,"A#":10,"B":11
 };
+  
+function getInversion(root, selectedNotes, noteIndex) {
+  const noteNums = selectedNotes.map(n => noteIndex[n]);
 
+  const lowest = Math.min(...noteNums);
+
+  const bassNote = Object.keys(noteIndex).find(
+    key => noteIndex[key] === lowest
+  );
+
+  if (bassNote !== root) {
+    return " / " + bassNote;
+  }
+
+  return "";
+}
+  
 // 코드 찾기
 function findChord() {
   if (selectedNotes.length < 3) {
