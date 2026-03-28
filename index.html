@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>코드 찾기 앱</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background: #111;
+  color: white;
+}
+
+h1 {
+  margin-top: 30px;
+}
+
+.keyboard {
+  position: relative;
+  width: 700px;
+  margin: 40px auto;
+}
+
+/* 흰 건반 */
+.white {
+  width: 80px;
+  height: 250px;
+  background: white;
+  border: 1px solid black;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.white.active {
+  background: #4fc3f7;
+}
+
+/* 검은 건반 */
+.black {
+  width: 50px;
+  height: 150px;
+  background: black;
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.black.active {
+  background: #ff4081;
+}
+
+/* 검은 건반 위치 */
+.black[data-note="C#"] { left: 55px; }
+.black[data-note="D#"] { left: 135px; }
+.black[data-note="F#"] { left: 295px; }
+.black[data-note="G#"] { left: 375px; }
+.black[data-note="A#"] { left: 455px; }
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+#notes {
+  margin-top: 20px;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎹 코드 찾기</h1>
+
+<div class="keyboard">
+
+  <!-- 흰 건반 -->
+  <div class="white" data-note="C">도</div>
+  <div class="white" data-note="D">레</div>
+  <div class="white" data-note="E">미</div>
+  <div class="white" data-note="F">파</div>
+  <div class="white" data-note="G">솔</div>
+  <div class="white" data-note="A">라</div>
+  <div class="white" data-note="B">시</div>
+
+  <!-- 검은 건반 -->
+  <div class="black" data-note="C#"></div>
+  <div class="black" data-note="D#"></div>
+  <div class="black" data-note="F#"></div>
+  <div class="black" data-note="G#"></div>
+  <div class="black" data-note="A#"></div>
+
+</div>
+
+<button onclick="findChord()">결과 보기</button>
+<button onclick="reset()">초기화</button>
+
+<div id="notes"></div>
+<div id="result"></div>
+
+<script>
+let selectedNotes = [];
+
+// 모든 건반 클릭 이벤트
+document.querySelectorAll('.white, .black').forEach(key => {
+  key.addEventListener('click', () => {
+    const note = key.dataset.note;
+
+    if (selectedNotes.includes(note)) {
+      selectedNotes = selectedNotes.filter(n => n !== note);
+      key.classList.remove('active');
+    } else {
+      selectedNotes.push(note);
+      key.classList.add('active');
+    }
+
+    document.getElementById("notes").innerText =
+      "선택된 음: " + selectedNotes.join(", ");
+  });
+});
+
+// 음을 숫자로 변환 (음정 계산용)
+const noteIndex = {
+  "C":0,"C#":1,"D":2,"D#":3,"E":4,"F":5,
+  "F#":6,"G":7,"G#":8,"A":9,"A#":10,"B":11
+};
+
+// 코드 찾기
+function findChord() {
+  if (selectedNotes.length < 3) {
+    document.getElementById("result").innerText = "3개 이상 선택해줘!";
+    return;
+  }
+
+  const sorted = selectedNotes.map(n => noteIndex[n]).sort((a,b)=>a-b);
+
+  for (let root of selectedNotes) {
+    const rootIdx = noteIndex[root];
+
+    const intervals = sorted.map(n => (n - rootIdx + 12) % 12);
+
+    // Major
+    if (match(intervals, [0,4,7])) {
+      return show(root + " Major");
+    }
+
+    // Minor
+    if (match(intervals, [0,3,7])) {
+      return show(root + " minor");
+    }
+
+    // Diminished
+    if (match(intervals, [0,3,6])) {
+      return show(root + " dim");
+    }
+
+    // 7
+    if (match(intervals, [0,4,7,10])) {
+      return show(root + "7");
+    }
+
+    // minor7
+    if (match(intervals, [0,3,7,10])) {
+      return show(root + "m7");
+    }
+
+    // sus4
+    if (match(intervals, [0,5,7])) {
+      return show(root + "sus4");
+    }
+  }
+
+  show("알 수 없는 코드");
+}
+
+// 배열 포함 체크
+function match(arr, target) {
+  return target.every(t => arr.includes(t));
+}
+
+// 결과 출력
+function show(text) {
+  document.getElementById("result").innerText = text;
+}
+
+// 초기화
+function reset() {
+  selectedNotes = [];
+  document.querySelectorAll('.key, .white, .black').forEach(k => {
+    k.classList.remove('active');
+  });
+  document.getElementById("notes").innerText = "";
+  document.getElementById("result").innerText = "";
+}
+</script>
+
+</body>
+</html>
