@@ -64,7 +64,7 @@ h1 {
 .black.n8 { left: 860px; }
 .black.n9 { left: 940px; }
 .black.n10 { left: 1020px; }
-}
+
 
 button {
   margin: 10px;
@@ -91,34 +91,36 @@ button {
 <div class="keyboard">
 
  <!-- 🔥 흰 건반 (2옥타브) -->
-  <div class="white" data-note="C">도</div>
-  <div class="white" data-note="D">레</div>
-  <div class="white" data-note="E">미</div>
-  <div class="white" data-note="F">파</div>
-  <div class="white" data-note="G">솔</div>
-  <div class="white" data-note="A">라</div>
-  <div class="white" data-note="B">시</div>
+<!-- 1옥타브 (4번 옥타브) -->
+<div class="white" data-note="C4">도</div>
+<div class="white" data-note="D4">레</div>
+<div class="white" data-note="E4">미</div>
+<div class="white" data-note="F4">파</div>
+<div class="white" data-note="G4">솔</div>
+<div class="white" data-note="A4">라</div>
+<div class="white" data-note="B4">시</div>
 
-  <div class="white" data-note="C">도</div>
-  <div class="white" data-note="D">레</div>
-  <div class="white" data-note="E">미</div>
-  <div class="white" data-note="F">파</div>
-  <div class="white" data-note="G">솔</div>
-  <div class="white" data-note="A">라</div>
-  <div class="white" data-note="B">시</div>
+<!-- 2옥타브 (5번 옥타브) -->
+<div class="white" data-note="C5">도</div>
+<div class="white" data-note="D5">레</div>
+<div class="white" data-note="E5">미</div>
+<div class="white" data-note="F5">파</div>
+<div class="white" data-note="G5">솔</div>
+<div class="white" data-note="A5">라</div>
+<div class="white" data-note="B5">시</div>
 
   <!-- 🔥 검은 건반 -->
-  <div class="black n1" data-note="C#"></div>
-  <div class="black n2" data-note="D#"></div>
-  <div class="black n3" data-note="F#"></div>
-  <div class="black n4" data-note="G#"></div>
-  <div class="black n5" data-note="A#"></div>
+<div class="black n1" data-note="C#4"></div>
+<div class="black n2" data-note="D#4"></div>
+<div class="black n3" data-note="F#4"></div>
+<div class="black n4" data-note="G#4"></div>
+<div class="black n5" data-note="A#4"></div>
 
-  <div class="black n6" data-note="C#"></div>
-  <div class="black n7" data-note="D#"></div>
-  <div class="black n8" data-note="F#"></div>
-  <div class="black n9" data-note="G#"></div>
-  <div class="black n10" data-note="A#"></div>
+<div class="black n6" data-note="C#5"></div>
+<div class="black n7" data-note="D#5"></div>
+<div class="black n8" data-note="F#5"></div>
+<div class="black n9" data-note="G#5"></div>
+<div class="black n10" data-note="A#5"></div>
 
 </div>
 
@@ -151,8 +153,11 @@ document.querySelectorAll('.white, .black').forEach(key => {
 
 // 음을 숫자로 변환 (음정 계산용)
 const noteIndex = {
-  "C":0,"C#":1,"D":2,"D#":3,"E":4,"F":5,
-  "F#":6,"G":7,"G#":8,"A":9,"A#":10,"B":11
+  "C4":0,"C#4":1,"D4":2,"D#4":3,"E4":4,"F4":5,
+  "F#4":6,"G4":7,"G#4":8,"A4":9,"A#4":10,"B4":11,
+
+  "C5":12,"C#5":13,"D5":14,"D#5":15,"E5":16,"F5":17,
+  "F#5":18,"G5":19,"G#5":20,"A5":21,"A#5":22,"B5":23
 };
   
 function getInversion(root, selectedNotes, noteIndex) {
@@ -165,7 +170,7 @@ function getInversion(root, selectedNotes, noteIndex) {
   );
 
   if (bassNote !== root) {
-    return " / " + bassNote;
+    return " / " + cleanNote(bassNote);
   }
 
   return "";
@@ -189,36 +194,37 @@ function findChord() {
     // Major
     if (match(intervals, [0,4,7])) {
       const inversion = getInversion(root, selectedNotes, noteIndex);
-      return show(root + " Major" + inversion);
+      return show(cleanNote(root) + "Major" + inversion);
     }
 
     // Minor
     if (match(intervals, [0,3,7])) {
       const inversion = getInversion(root, selectedNotes, noteIndex);
-return show(root + " minor" + inversion);
+return show(cleanNote(root) + "minor" + inversion);
     }
 
     // Diminished
     if (match(intervals, [0,3,6])) {
       const inversion = getInversion(root, selectedNotes, noteIndex);
-return show(root + " dim" + inversion);
+return show(cleanNote(root) + "dim" + inversion);
     }
 
     // 7
     if (match(intervals, [0,4,7,10])) {
-      return show(root + "7");
-    }
+  const inversion = getInversion(root, selectedNotes, noteIndex);
+  return show(cleanNote(root) + "7" + inversion);
+}
 
     // minor7
     if (match(intervals, [0,3,7,10])) {
       const inversion = getInversion(root, selectedNotes, noteIndex);
-return show(root + " m7" + inversion);
+return show(cleanNote(root) + "m7" + inversion);
     }
 
     // sus4
     if (match(intervals, [0,5,7])) {
       const inversion = getInversion(root, selectedNotes, noteIndex);
-return show(root + " sus4" + inversion);
+return show(cleanNote(root) + "sus4" + inversion);
     }
   }
 
@@ -235,10 +241,14 @@ function show(text) {
   document.getElementById("result").innerText = text;
 }
 
+function cleanNote(note) {
+  return note.replace(/[0-9]/g, '');
+}
+
 // 초기화
 function reset() {
   selectedNotes = [];
-  document.querySelectorAll('.key, .white, .black').forEach(k => {
+  document.querySelectorAll('.white, .black').forEach(k => {
     k.classList.remove('active');
   });
   document.getElementById("notes").innerText = "";
