@@ -194,6 +194,14 @@ const noteIndex = {
   "C5":12,"C#5":13,"D5":14,"D#5":15,"E5":16,"F5":17,
   "F#5":18,"G5":19,"G#5":20,"A5":21,"A#5":22,"B5":23
 };
+
+  const enharmonicMap = {
+  "C#": "Db",
+  "D#": "Eb",
+  "F#": "Gb",
+  "G#": "Ab",
+  "A#": "Bb"
+};
   
 function getInversion(root, selectedNotes, noteIndex) {
   const noteNums = selectedNotes.map(n => noteIndex[n]);
@@ -205,7 +213,13 @@ function getInversion(root, selectedNotes, noteIndex) {
   );
 
   if (bassNote !== root) {
-    return " / " + cleanNote(bassNote);
+    const base = cleanNote(bassNote);
+
+if (enharmonicMap[base]) {
+  return " / " + base + " or " + enharmonicMap[base];
+}
+
+return " / " + base;
   }
 
   return "";
@@ -229,72 +243,72 @@ function findChord() {
 
     // 🔥 Major
     if (match(intervals, [0,4,7])) {
-      return show(rootName + inversion);
+      return show(formatChord(root, "", inversion));
     }
 
     // 🔥 minor
     if (match(intervals, [0,3,7])) {
-      return show(rootName + "m" + inversion);
+      return show(formatChord(root, "m", inversion));
     }
 
     // 🔥 diminished
     if (match(intervals, [0,3,6])) {
-      return show(rootName + "dim" + inversion);
+      return show(formatChord(root, "dim", inversion));
     }
 
     // 🔥 augmented
     if (match(intervals, [0,4,8])) {
-      return show(rootName + "aug" + inversion);
+      return show(formatChord(root, "aug", inversion));
     }
 
     // 🔥 7
     if (match(intervals, [0,4,7,10])) {
-      return show(rootName + "7" + inversion);
+      return show(formatChord(root, "7", inversion));
     }
 
     // 🔥 maj7 (핵심 재즈 코드)
     if (match(intervals, [0,4,7,11])) {
-      return show(rootName + "maj7" + inversion);
+      return show(formatChord(root, "maj7", inversion));
     }
 
     // 🔥 m7
     if (match(intervals, [0,3,7,10])) {
-      return show(rootName + "m7" + inversion);
-    }
+      return show(formatChord(root, "m7", inversion));
+}
 
     // 🔥 m7b5 (half diminished)
     if (match(intervals, [0,3,6,10])) {
-      return show(rootName + "m7b5" + inversion);
+      return show(formatChord(root, "m7b5", inversion));
     }
 
     // 🔥 dim7
     if (match(intervals, [0,3,6,9])) {
-      return show(rootName + "dim7" + inversion);
+      return show(formatChord(root, "dim7", inversion));
     }
 
     // 🔥 sus4
     if (match(intervals, [0,5,7])) {
-      return show(rootName + "sus4" + inversion);
+      return show(formatChord(root, "sus4", inversion));
     }
 
     // 🔥 add9
     if (match(intervals, [0,4,7,2])) {
-      return show(rootName + "add9" + inversion);
+      return show(formatChord(root, "add9", inversion));
     }
 
     // 🔥 9 (dominant 9)
     if (match(intervals, [0,4,7,10,2])) {
-      return show(rootName + "9" + inversion);
+      return show(formatChord(root, "dominant9", inversion));
     }
 
     // 🔥 m9
     if (match(intervals, [0,3,7,10,2])) {
-      return show(rootName + "m9" + inversion);
+      return show(formatChord(root, "m9", inversion));
     }
 
     // 🔥 maj9
     if (match(intervals, [0,4,7,11,2])) {
-      return show(rootName + "maj9" + inversion);
+      return show(formatChord(root, "maj9", inversion));
     }
   }
 
@@ -313,6 +327,20 @@ function show(text) {
 
 function cleanNote(note) {
   return note.replace(/[0-9]/g, '');
+}
+
+  function formatChord(root, type, inversion) {
+  const base = cleanNote(root);
+
+  if (enharmonicMap[base]) {
+    return (
+      base + type + inversion +
+      " or " +
+      enharmonicMap[base] + type + inversion
+    );
+  }
+
+  return base + type + inversion;
 }
 
 // 초기화
