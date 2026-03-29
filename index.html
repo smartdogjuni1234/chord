@@ -200,26 +200,28 @@ button {
 <div id="result"></div>
 
 <script>
-let selectedNotes = [];
+document.addEventListener("DOMContentLoaded", function () {
 
-// 모든 건반 클릭 이벤트
-document.querySelectorAll('.white, .black').forEach(key => {
-  key.addEventListener('click', () => {
-    const note = key.dataset.note;
+  let selectedNotes = [];
 
-    if (selectedNotes.includes(note)) {
-      selectedNotes = selectedNotes.filter(n => n !== note);
-      key.classList.remove('active');
-    } else {
-      selectedNotes.push(note);
-      key.classList.add('active');
-    }
+  document.querySelectorAll('.white, .black').forEach(key => {
+    key.addEventListener('click', () => {
+      const note = key.dataset.note;
 
-    document.getElementById("notes").innerText =
-  "선택된 음: " + selectedNotes.map(cleanNote).join(", ");
+      if (selectedNotes.includes(note)) {
+        selectedNotes = selectedNotes.filter(n => n !== note);
+        key.classList.remove('active');
+      } else {
+        selectedNotes.push(note);
+        key.classList.add('active');
+      }
+
+      document.getElementById("notes").innerText =
+        "선택된 음: " + selectedNotes.map(cleanNote).join(", ");
+    });
   });
-});
 
+});
 // 음을 숫자로 변환 (음정 계산용)
 const noteIndex = {
   "C4":0,"C#4":1,"D4":2,"D#4":3,"E4":4,"F4":5,
