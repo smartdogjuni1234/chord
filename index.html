@@ -241,76 +241,75 @@ function findChord() {
     const inversion = getInversion(root, selectedNotes, noteIndex);
     const rootName = cleanNote(root);
 
-    // 🔥 Major
-    if (match(intervals, [0,4,7])) {
-      return show(formatChord(root, "", inversion));
-    }
-
-    // 🔥 minor
-    if (match(intervals, [0,3,7])) {
-      return show(formatChord(root, "m", inversion));
-    }
-
-    // 🔥 diminished
-    if (match(intervals, [0,3,6])) {
-      return show(formatChord(root, "dim", inversion));
-    }
-
-    // 🔥 augmented
-    if (match(intervals, [0,4,8])) {
-      return show(formatChord(root, "aug", inversion));
-    }
-
-    // 🔥 7
-    if (match(intervals, [0,4,7,10])) {
-      return show(formatChord(root, "7", inversion));
-    }
-
-    // 🔥 maj7 (핵심 재즈 코드)
-    if (match(intervals, [0,4,7,11])) {
-      return show(formatChord(root, "maj7", inversion));
-    }
-
-    // 🔥 m7
-    if (match(intervals, [0,3,7,10])) {
-      return show(formatChord(root, "m7", inversion));
+// 🔥 maj9
+if (match(intervals, [0,4,7,11,2])) {
+  return show(formatChord(root, "maj9", inversion));
 }
 
-    // 🔥 m7b5 (half diminished)
-    if (match(intervals, [0,3,6,10])) {
-      return show(formatChord(root, "m7b5", inversion));
-    }
+// 🔥 9
+if (match(intervals, [0,4,7,10,2])) {
+  return show(formatChord(root, "9", inversion));
+}
 
-    // 🔥 dim7
-    if (match(intervals, [0,3,6,9])) {
-      return show(formatChord(root, "dim7", inversion));
-    }
+// 🔥 m9
+if (match(intervals, [0,3,7,10,2])) {
+  return show(formatChord(root, "m9", inversion));
+}
 
-    // 🔥 sus4
-    if (match(intervals, [0,5,7])) {
-      return show(formatChord(root, "sus4", inversion));
-    }
+// 🔥 maj7
+if (match(intervals, [0,4,7,11])) {
+  return show(formatChord(root, "maj7", inversion));
+}
 
-    // 🔥 add9
-    if (match(intervals, [0,4,7,2])) {
-      return show(formatChord(root, "add9", inversion));
-    }
+// 🔥 7
+if (match(intervals, [0,4,7,10])) {
+  return show(formatChord(root, "7", inversion));
+}
 
-    // 🔥 9 (dominant 9)
-    if (match(intervals, [0,4,7,10,2])) {
-      return show(formatChord(root, "dominant9", inversion));
-    }
+// 🔥 m7
+if (match(intervals, [0,3,7,10])) {
+  return show(formatChord(root, "m7", inversion));
+}
 
-    // 🔥 m9
-    if (match(intervals, [0,3,7,10,2])) {
-      return show(formatChord(root, "m9", inversion));
-    }
+// 🔥 m7b5
+if (match(intervals, [0,3,6,10])) {
+  return show(formatChord(root, "m7b5", inversion));
+}
 
-    // 🔥 maj9
-    if (match(intervals, [0,4,7,11,2])) {
-      return show(formatChord(root, "maj9", inversion));
-    }
-  }
+// 🔥 dim7
+if (match(intervals, [0,3,6,9])) {
+  return show(formatChord(root, "dim7", inversion));
+}
+
+// 🔥 aug
+if (match(intervals, [0,4,8])) {
+  return show(formatChord(root, "aug", inversion));
+}
+
+// 🔥 sus4
+if (match(intervals, [0,5,7])) {
+  return show(formatChord(root, "sus4", inversion));
+}
+
+// 🔥 add9
+if (match(intervals, [0,4,7,2])) {
+  return show(formatChord(root, "add9", inversion));
+}
+
+// 🔥 dim
+if (match(intervals, [0,3,6])) {
+  return show(formatChord(root, "dim", inversion));
+}
+
+// 🔥 minor
+if (match(intervals, [0,3,7])) {
+  return show(formatChord(root, "m", inversion));
+}
+
+// 🔥 Major (맨 마지막!)
+if (match(intervals, [0,4,7])) {
+  return show(formatChord(root, "", inversion));
+}
 
   show("알 수 없는 코드");
 }
