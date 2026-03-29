@@ -233,6 +233,8 @@ const noteIndex = {
 "F#6":30,"G6":31,"G#6":32,"A6":33,"A#6":34,"B6":35
 };
 
+  const allRoots = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+
   const enharmonicMap = {
   "C#": "Db",
   "D#": "Eb",
@@ -265,19 +267,59 @@ return " / " + base;
   
 // 코드 찾기 (재즈 확장)
 function findChord() {
-  if (selectedNotes.length < 3) {
-    return show("3개 이상 선택!");
+  if (selectedNotes.length < 2) {
+    return show("2개 이상 선택!");
   }
 
   const nums = selectedNotes.map(n => noteIndex[n] % 12);
 
-  for (let root of selectedNotes) {
-    const rootIdx = noteIndex[root] % 12;
+  let bestScore = -1;
+  let bestChord = "";
 
-    const intervals = nums.map(n => (n - rootIdx + 12) % 12);
+  for (let root of allRoots) {
+
+    const rootIdx = noteIndex[root + "4"] % 12;
+
+    const intervals = [...new Set(
+      nums.map(n => (n - rootIdx + 12) % 12)
+    )];
+
+    const chordTypes = ["9", "maj7", "7", "m7", "m", ""];
+
+    for (let type of chordTypes) {
+
+      let score = scoreChord(intervals, type);
+
+      // 🔥 보너스: 음 많이 맞을수록 가산점
+      score += intervals.length * 0.5;
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestChord = formatChord(root + "4", type, "");
+      }
+    }
+  }
+
+  show(bestChord || "알 수 없음");
+}
 
     const inversion = getInversion(root, selectedNotes, noteIndex);
     const rootName = cleanNote(root);
+    
+// mM7
+if (match(intervals, [0,3,7,11])) {
+  return show(formatChord(root, "mM7", inversion));
+}
+
+// 13
+if (match(intervals, [0,4,10,2,9])) {
+  return show(formatChord(root, "13", inversion));
+}
+
+// 11
+if (match(intervals, [0,4,10,2,5])) {
+  return show(formatChord(root, "11", inversion));
+}
 
 // 🔥 maj9
 if (match(intervals, [0,4,7,11,2])) {
@@ -356,6 +398,51 @@ if (match(intervals, [0,4,7])) {
 // 배열 포함 체크
 function match(arr, target) {
   return target.every(t => arr.includes(t));
+}
+
+function scoreChord(intervals, chordType) {
+  let score = 0;
+
+  const has = (i) => intervals.includes(i);
+
+  // 공통 핵심
+  if (has(4) || has(3)) score += 2; // 3도
+  if (has(10) || has(11)) score += 2; // 7도
+
+  // 코드별 가중치
+  switch (chordType) {
+
+    case "9":
+      if (has(2)) score += 2; // 9
+      if (has(4)) score += 2; // 3
+      if (has(10)) score += 2; // b7
+      break;
+
+    case "m7":
+      if (has(3)) score += 2;
+      if (has(10)) score += 2;
+      break;
+
+    case "maj7":
+      if (has(4)) score += 2;
+      if (has(11)) score += 2;
+      break;
+
+    case "7":
+      if (has(4)) score += 2;
+      if (has(10)) score += 2;
+      break;
+
+    case "m":
+      if (has(3)) score += 2;
+      break;
+
+    case "":
+      if (has(4)) score += 2;
+      break;
+  }
+
+  return score;
 }
 
 // 결과 출력
