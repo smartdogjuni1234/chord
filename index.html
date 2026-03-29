@@ -17,10 +17,10 @@ h1 {
 
 .keyboard {
   display: flex;
-  justify-content: center;
-  margin: 40px auto;
+  justify-content: flex-start;
+  overflow-x: auto;   /* 🔥 가로 스크롤 */
+  padding: 20px;
 }
-
 /* 각 건반 묶음 */
 .key {
   position: relative;
@@ -157,6 +157,40 @@ button {
     <div class="white" data-note="B5">시</div>
   </div>
 
+  <!-- 🔥 3옥타브 (6번 옥타브) -->
+<div class="key">
+  <div class="white" data-note="C6">도</div>
+  <div class="black" data-note="C#6"></div>
+</div>
+
+<div class="key">
+  <div class="white" data-note="D6">레</div>
+  <div class="black" data-note="D#6"></div>
+</div>
+
+<div class="key">
+  <div class="white" data-note="E6">미</div>
+</div>
+
+<div class="key">
+  <div class="white" data-note="F6">파</div>
+  <div class="black" data-note="F#6"></div>
+</div>
+
+<div class="key">
+  <div class="white" data-note="G6">솔</div>
+  <div class="black" data-note="G#6"></div>
+</div>
+
+<div class="key">
+  <div class="white" data-note="A6">라</div>
+  <div class="black" data-note="A#6"></div>
+</div>
+
+<div class="key">
+  <div class="white" data-note="B6">시</div>
+</div>
+
 </div>
 
 <button onclick="findChord()">결과 보기</button>
@@ -193,6 +227,9 @@ const noteIndex = {
 
   "C5":12,"C#5":13,"D5":14,"D#5":15,"E5":16,"F5":17,
   "F#5":18,"G5":19,"G#5":20,"A5":21,"A#5":22,"B5":23
+
+  "C6":24,"C#6":25,"D6":26,"D#6":27,"E6":28,"F6":29,
+"F#6":30,"G6":31,"G#6":32,"A6":33,"A#6":34,"B6":35
 };
 
   const enharmonicMap = {
