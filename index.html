@@ -294,7 +294,7 @@ function findChord() {
 
       let score = scoreChord(intervals, type);
 
-      score += intervals.length * 0.5;
+      score += intervals.length * 0.2;
 
       if (score > bestScore) {
         bestScore = score;
@@ -313,65 +313,71 @@ function match(arr, target) {
   return target.every(t => arr.includes(t));
 }
 
-/* 🔥 여기 넣어 */
 function scoreChord(intervals, type) {
   let score = 0;
 
   const has = (i) => intervals.includes(i);
 
-  if (has(4) || has(3)) score += 2;
-  if (has(10) || has(11)) score += 2;
-  // 🔥 루트 없으면 감점 (AI 느낌 핵심)
-if (!has(0)) score -= 1;
+  // 🔥 루트 있으면 크게 가산점 (핵심)
+  if (has(0)) score += 3;
+  else score -= 2;
+
+  // 3도 (코드 성격 핵심)
+  if (has(4)) score += 2;
+  if (has(3)) score += 2;
+
+  // 7도
+  if (has(10) || has(11)) score += 1;
 
   switch(type) {
 
     case "13":
-      if (has(9)) score += 3;
-      if (has(10)) score += 2;
+      if (has(9)) score += 2;
       break;
 
     case "11":
-      if (has(5)) score += 3;
-      if (has(10)) score += 2;
+      if (has(5)) score += 2;
       break;
 
     case "9":
-      if (has(2)) score += 3;
-      if (has(10)) score += 2;
+      if (has(2)) score += 2;
       break;
 
     case "mM7":
-      if (has(3) && has(11)) score += 4;
+      if (has(3) && has(11)) score += 2;
       break;
 
     case "maj7":
-      if (has(4) && has(11)) score += 3;
+      if (has(4) && has(11)) score += 2;
       break;
 
     case "7":
-      if (has(4) && has(10)) score += 3;
+      if (has(4) && has(10)) score += 2;
       break;
 
     case "m7":
-      if (has(3) && has(10)) score += 3;
+      if (has(3) && has(10)) score += 2;
+      break;
+
+    case "add9":
+      if (has(2) && has(4)) score += 2;
+      break;
+
+    case "dim":
+      if (has(3) && has(6)) score += 2;
+      break;
+
+    case "aug":
+      if (has(4) && has(8)) score += 2;
+      break;
+
+    case "sus4":
+      if (has(5) && has(7)) score += 1;
       break;
 
     case "m":
       if (has(3)) score += 2;
       break;
-
-    case "dim":
-  if (has(3) && has(6)) score += 3;
-  break;
-
-case "aug":
-  if (has(4) && has(8)) score += 3;
-  break;
-
-case "sus4":
-  if (has(5) && has(7)) score += 2;
-  break;
 
     case "":
       if (has(4)) score += 2;
