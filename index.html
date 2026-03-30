@@ -332,16 +332,19 @@ function scoreChord(intervals, type) {
   switch(type) {
 
     case "13":
-      if (has(9)) score += 2;
-      break;
+  if (has(9) && has(10)) score += 2;
+  if (has(4)) score += 1;
+  break;
 
     case "11":
-      if (has(5)) score += 2;
-      break;
-
+  if (has(5) && has(10)) score += 2;
+  if (has(4)) score += 1;
+  break;
+      
     case "9":
-      if (has(2)) score += 2;
-      break;
+  if (has(2) && has(10)) score += 2; // 9 + b7
+  if (has(4)) score += 2; // 3도
+  break;
 
     case "mM7":
       if (has(3) && has(11)) score += 2;
@@ -372,8 +375,8 @@ function scoreChord(intervals, type) {
       break;
 
     case "sus4":
-      if (has(5) && has(7)) score += 1;
-      break;
+  if (has(5) && has(7) && !has(3) && !has(4)) score += 3;
+  break;
 
     case "m":
       if (has(3)) score += 2;
